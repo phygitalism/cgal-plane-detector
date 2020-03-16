@@ -1,0 +1,6 @@
+root = true
+
+[*{.md,*.txt,*.h,*.cpp,*.hpp}]
+charset = utf-8
+indent_style = space
+
