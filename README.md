@@ -16,7 +16,7 @@
 
 ## CMake features
 
-1. [PCH](https://en.wikipedia.org/wiki/Precompiled_header) used only for MSVC. For other compiles it is not configured. 
+1. [PCH](https://en.wikipedia.org/wiki/Precompiled_header) used only for MSVC. It is not configured for other compilers.
 2. All files include implicitly `stdafx.h` for MSVC.
 
 
