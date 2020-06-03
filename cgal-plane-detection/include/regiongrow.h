@@ -14,7 +14,7 @@ namespace util
     using Regions = std::vector<Region>;
     using Region_growing = CGAL::Shape_detection::Region_growing<Face_range, Neighbor_query, Region_type, typename Sorting::Seed_map>;
 
-    Regions plane_detection(Polygon_mesh& polygon_mesh, size_t min_region_size = 5, double max_distance_to_plane = 5, double max_accepted_angle = 30);
+    Regions plane_detection(Polygon_mesh & polygon_mesh, size_t min_region_size = 5, double max_distance_to_plane = 5, double max_accepted_angle = 30);
 
-    bool colorize_mesh(Polygon_mesh& polygon_mesh, const Regions& regions);
+    bool colorize_mesh(Polygon_mesh & polygon_mesh, const Regions & regions);
 }

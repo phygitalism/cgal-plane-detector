@@ -1,6 +1,6 @@
 #include "objreader.h"
 
-bool util::read_obj(const std::string& filename, std::vector<Point_3>& points_ref, std::vector<FaceIndices>& faces_ref)
+bool util::read_obj(const std::string & filename, std::vector<Point_3> & points_ref, std::vector<FaceIndices> & faces_ref)
 {
     using namespace std;
 

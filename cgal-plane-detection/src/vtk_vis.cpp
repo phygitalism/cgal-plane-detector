@@ -2,7 +2,7 @@
 
 #include "vtk_vis.h"
 
-void viz::show_ply(const std::string& path_to_file, const std::string& orig_file)
+void viz::show_ply(const std::string & path_to_file, const std::string & orig_file)
 {
     vtkSmartPointer<vtkPLYReader> reader1 =
         vtkSmartPointer<vtkPLYReader>::New();

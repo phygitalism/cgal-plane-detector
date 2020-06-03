@@ -1,6 +1,6 @@
 #include "processing.h"
 
-void processing::clean_mesh(std::vector<util::Point_3>& points, std::vector<util::FaceIndices>& faces)
+void processing::clean_mesh(std::vector<util::Point_3> & points, std::vector<util::FaceIndices> & faces)
 {
     using namespace CGAL::Polygon_mesh_processing;
 

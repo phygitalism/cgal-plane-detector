@@ -6,5 +6,5 @@
 
 namespace util
 {
-    Polygon_mesh build_planes(const Polygon_mesh&, const Regions&, std::vector<Rectangle>& rectangles, double min_area = 1);
+    Polygon_mesh build_planes(const Polygon_mesh &, const Regions &, std::vector<Rectangle> & rectangles, double min_area = 1);
 }
