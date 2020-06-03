@@ -14,26 +14,26 @@
 
 namespace cliargs
 {
-    constexpr char* help_arg_name{ u8"help" };
-    constexpr char* help_short_arg_name{ u8"h" };
-    constexpr char* input_arg_name{ u8"input" };
-    constexpr char* input_short_arg_name{ u8"i" };
-    constexpr char* output_arg_name{ u8"output" };
-    constexpr char* output_short_arg_name{ u8"o" };
-    constexpr char* angle_arg_name{ u8"max-angle" };
-    constexpr char* max_distance_arg_name{ u8"max-distance" };
-    constexpr char* min_reg_size_arg_name{ u8"min-regsize" };
-    constexpr char* min_plane_area_arg_name{ u8"min-plane-area" };
-    constexpr char* clean_arg_name{ u8"clean" };
-    constexpr char* clean_short_arg_name{ u8"c" };
+    constexpr char * help_arg_name{ u8"help" };
+    constexpr char * help_short_arg_name{ u8"h" };
+    constexpr char * input_arg_name{ u8"input" };
+    constexpr char * input_short_arg_name{ u8"i" };
+    constexpr char * output_arg_name{ u8"output" };
+    constexpr char * output_short_arg_name{ u8"o" };
+    constexpr char * angle_arg_name{ u8"max-angle" };
+    constexpr char * max_distance_arg_name{ u8"max-distance" };
+    constexpr char * min_reg_size_arg_name{ u8"min-regsize" };
+    constexpr char * min_plane_area_arg_name{ u8"min-plane-area" };
+    constexpr char * clean_arg_name{ u8"clean" };
+    constexpr char * clean_short_arg_name{ u8"c" };
 
 #ifdef VTK_VIS
-    constexpr char* display_arg_name{ u8"display" };
-    constexpr char* display_arg_short_name{ u8"d" };
+    constexpr char * display_arg_name{ u8"display" };
+    constexpr char * display_arg_short_name{ u8"d" };
 #endif
 }
 
-auto parse_cli_args(int argc, char** argv)
+auto parse_cli_args(int argc, char ** argv)
 {
     using namespace boost::program_options;
     using namespace cliargs;
@@ -81,7 +81,7 @@ auto parse_cli_args(int argc, char** argv)
     return std::make_tuple(vm, desc);
 }
 
-bool validate_args(const boost::program_options::variables_map& args, const boost::program_options::options_description& desc)
+bool validate_args(const boost::program_options::variables_map & args, const boost::program_options::options_description & desc)
 {
     using namespace boost::filesystem;
     using namespace cliargs;
@@ -160,7 +160,7 @@ bool validate_args(const boost::program_options::variables_map& args, const boos
     return true;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
     using namespace boost::program_options;
     using namespace boost::filesystem;

@@ -22,14 +22,14 @@ std::vector<util::Point_3> util::polygon_to_rectangle_on_plane(const std::vector
     }
 
     Vector_3 new_basis_3{ plane.orthogonal_vector() };
-    Vector_3 new_basis_2{ CGAL::cross_product(new_basis_3, new_basis_1) };
+    Vector_3 new_basis_2{ CGAL::cross_product(new_basis_1, new_basis_3) };
     Vector_3 origin_shifting{ new_origin - CGAL::ORIGIN };
 
     // Matrix of a transformation with respect to a basis. From new coordinate system to origin.
     Kernel::Aff_transformation_3 transformation{
-        new_basis_1.x(), new_basis_2.x(), new_basis_3.x(), origin_shifting.x(),
-        new_basis_1.y(), new_basis_2.y(), new_basis_3.y(), origin_shifting.y(),
-        new_basis_1.z(), new_basis_2.z(), new_basis_3.z(), origin_shifting.z()
+        new_basis_1.x(), new_basis_2.x(), new_basis_3.x(), 0,
+        new_basis_1.y(), new_basis_2.y(), new_basis_3.y(), 0,
+        new_basis_1.z(), new_basis_2.z(), new_basis_3.z(), 0
     };
 
     Kernel::Aff_transformation_3 inveres_transformation{ transformation.inverse() };
