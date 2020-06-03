@@ -1,7 +1,7 @@
 #include "intersections.h"
 
 // Find intersections between AABB and plane.
-std::vector<util::Point_3> util::plane_aabb_intersection_points(const Kernel::Plane_3& plane, const Kernel::Iso_cuboid_3& bbox)
+std::vector<util::Point_3> util::plane_aabb_intersection_points(const Kernel::Plane_3 & plane, const Kernel::Iso_cuboid_3 & bbox)
 {
     std::vector<Point_3> points;
 
@@ -23,7 +23,7 @@ std::vector<util::Point_3> util::plane_aabb_intersection_points(const Kernel::Pl
 
     int i{};
 
-    for (const auto& end_point : end_points)
+    for (const auto & end_point : end_points)
     {
         Kernel::Segment_3 segment{ bbox.vertex(std::get<0>(end_point)), bbox.vertex(std::get<1>(end_point)) };
 
@@ -31,14 +31,14 @@ std::vector<util::Point_3> util::plane_aabb_intersection_points(const Kernel::Pl
 
         if (intersection)
         {
-            if (const Kernel::Point_3* p = boost::get<Kernel::Point_3>(&*intersection))
+            if (const Kernel::Point_3 * p = boost::get<Kernel::Point_3>(&*intersection))
             {
                 points.emplace_back(*p);
             }
             // Include ends
             else if (i < 4)
             {
-                if (const Kernel::Segment_3* seg = boost::get < Kernel::Segment_3>(&*intersection))
+                if (const Kernel::Segment_3 * seg = boost::get < Kernel::Segment_3>(&*intersection))
                 {
                     points.emplace_back(seg->start());
                     points.emplace_back(seg->end());
@@ -55,7 +55,7 @@ std::vector<util::Point_3> util::plane_aabb_intersection_points(const Kernel::Pl
         const Point_3 origin = *points.cbegin();
 
         // Sort in counter clockwise order
-        std::sort(points.begin(), points.end(), [&origin, &plane_normal](const Point_3& lhs, const Point_3& rhs) -> bool
+        std::sort(points.begin(), points.end(), [&origin, &plane_normal](const Point_3 & lhs, const Point_3 & rhs) -> bool
             {
                 auto v{ CGAL::cross_product(lhs - origin, rhs - origin) };
                 return CGAL::scalar_product(v, plane_normal) < 0;

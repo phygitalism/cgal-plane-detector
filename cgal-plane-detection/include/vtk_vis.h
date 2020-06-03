@@ -23,7 +23,7 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 
 namespace viz
 {
-    void show_ply(const std::string& path_to_file, const std::string& orig_file);
+    void show_ply(const std::string & path_to_file, const std::string & orig_file);
 }
 
 #endif

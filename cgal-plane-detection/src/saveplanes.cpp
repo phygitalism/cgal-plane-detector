@@ -1,6 +1,6 @@
 #include "saveplanes.h"
 
-bool io::save_planes(std::string path_to_file, const std::vector<util::Rectangle>& planes)
+bool io::save_planes(std::string path_to_file, const std::vector<util::Rectangle> & planes)
 {
     using std::cerr;
     using std::endl;
@@ -16,7 +16,7 @@ bool io::save_planes(std::string path_to_file, const std::vector<util::Rectangle
     fstream << u8"Total: " << planes.size() << endl;
     fstream << u8"x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4" << endl;
 
-    for (const auto& rectangle : planes)
+    for (const auto & rectangle : planes)
     {
         size_t i{};
 

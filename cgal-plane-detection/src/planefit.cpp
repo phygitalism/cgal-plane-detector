@@ -1,7 +1,7 @@
 #include "planefit.h"
 #include "polygons_helper.h"
 
-util::Polygon_mesh util::build_planes(const Polygon_mesh& mesh, const Regions& regions, std::vector<Rectangle>& rectangles, double min_area)
+util::Polygon_mesh util::build_planes(const Polygon_mesh & mesh, const Regions & regions, std::vector<Rectangle> & rectangles, double min_area)
 {
     using size_type = Polygon_mesh::size_type;
     using Halfedge_index = Polygon_mesh::Halfedge_index;
@@ -12,15 +12,15 @@ util::Polygon_mesh util::build_planes(const Polygon_mesh& mesh, const Regions& r
 
     rectangles.clear();
 
-    for (const auto& region : regions)
+    for (const auto & region : regions)
     {
         std::vector<Point_3> points;
 
-        for (const auto& index : region)
+        for (const auto & index : region)
         {
             const Halfedge_index hf = mesh.halfedge(Face_index(index));
 
-            for (const auto& vertex : mesh.vertices_around_face(hf))
+            for (const auto & vertex : mesh.vertices_around_face(hf))
             {
                 if (vertex.is_valid())
                 {

@@ -1,6 +1,6 @@
 #include "regiongrow.h"
 
-util::Regions util::plane_detection(Polygon_mesh& polygon_mesh, size_t min_region_size, double max_distance_to_plane_param, double max_accepted_angle_param)
+util::Regions util::plane_detection(Polygon_mesh & polygon_mesh, size_t min_region_size, double max_distance_to_plane_param, double max_accepted_angle_param)
 {
     using std::size_t;
     using std::cin;
@@ -52,7 +52,7 @@ util::Regions util::plane_detection(Polygon_mesh& polygon_mesh, size_t min_regio
     return regions;
 }
 
-bool util::colorize_mesh(Polygon_mesh& polygon_mesh, const Regions& regions)
+bool util::colorize_mesh(Polygon_mesh & polygon_mesh, const Regions & regions)
 {
     std::default_random_engine engine;
     std::uniform_int_distribution<> color_dist(0, 255);
@@ -76,7 +76,7 @@ bool util::colorize_mesh(Polygon_mesh& polygon_mesh, const Regions& regions)
     using size_type = typename Polygon_mesh::size_type;
 
     // Iterate through all regions.
-    for (const auto& region : regions) {
+    for (const auto & region : regions) {
         // Generate a random color.
         const Color color(
             static_cast<unsigned char>(color_dist(engine)),

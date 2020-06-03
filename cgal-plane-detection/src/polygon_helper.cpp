@@ -1,6 +1,6 @@
 #include "polygons_helper.h"
 
-std::vector<util::Point_3> util::polygon_to_rectangle_on_plane(const std::vector<util::Point_3>& points, const util::Kernel::Plane_3& plane)
+std::vector<util::Point_3> util::polygon_to_rectangle_on_plane(const std::vector<util::Point_3> & points, const util::Kernel::Plane_3 & plane)
 {
     using Point_2 = Kernel::Point_2;
 
@@ -37,7 +37,7 @@ std::vector<util::Point_3> util::polygon_to_rectangle_on_plane(const std::vector
     // Projections on plane. All points on plane have third coordinate is equal to zero.
     std::vector<Point_2> new_projection_points(points.size(), CGAL::ORIGIN);
 
-    std::transform(points.cbegin(), points.cend(), new_projection_points.begin(), [&inveres_transformation](const Point_3& point) {
+    std::transform(points.cbegin(), points.cend(), new_projection_points.begin(), [&inveres_transformation](const Point_3 & point) {
         auto projection{ point.transform(inveres_transformation) };
         return Point_2{ projection.x(), projection.y() };
         });
@@ -50,7 +50,7 @@ std::vector<util::Point_3> util::polygon_to_rectangle_on_plane(const std::vector
 
     std::vector<Point_3> rectangle{ num_rectangle_vertices, CGAL::ORIGIN };
 
-    std::transform(rectangle_projection.cbegin(), rectangle_projection.cend(), rectangle.begin(), [&transformation](const Point_2& point) {
+    std::transform(rectangle_projection.cbegin(), rectangle_projection.cend(), rectangle.begin(), [&transformation](const Point_2 & point) {
         return Point_3{ point.x(), point.y(), 0 }.transform(transformation);
         });
 
