@@ -10,15 +10,9 @@
 
 1. CGAL 5.0 or higher.
 2. Boost: math, filesystem, program options. Project was tested with Boost 1.71.
-3. CMake 3.10 or higher.
+3. CMake 3.17 or higher.
 4. Optional. [VTK](https://vtk.org/). It need only for visualization.
 5. Compiler with support C++14.
-
-## CMake features
-
-1. [PCH](https://en.wikipedia.org/wiki/Precompiled_header) used only for MSVC. It is not configured for other compilers.
-2. All files include implicitly `stdafx.h` for MSVC.
-
 
 ## How to run
 
