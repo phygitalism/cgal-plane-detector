@@ -1,0 +1,36 @@
+{
+    "name": "cgal-plane-detection",
+    "version-string": "0.1.0",
+    "dependencies": [
+        {
+            "name": "cgal",
+            "version>=": "5.2"
+        },
+        {
+            "name": "vtk",
+            "features": [
+                "opengl"
+            ],
+            "version>=": "8.0.0"
+        }
+    ],
+    "overrides": [
+        {
+            "name": "vtk",
+            "version": "8.1.0"
+        },
+        {
+            "name": "boost-math",
+            "version": "1.71.0"
+        },
+        {
+            "name": "boost-filesystem",
+            "version": "1.71.0"
+        },
+        {
+            "name": "boost-program-options",
+            "version": "1.71.0"
+        }
+    ],
+    "builtin-baseline": "44d94c2edbd44f0c01d66c2ad95eb6982a9a61bc"
+}

@@ -1,0 +1,39 @@
+name: autobuild
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:
+jobs:
+  windows-build:
+    name: Windows build
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: CMake Build
+        run: |
+          New-Item ./build -ItemType Directory
+          cmake -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DCMAKE_TOOLCHAIN_FILE:FILEPATH="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" -S . -B ./build
+          cmake --build ./build --parallel 2
+  
+  # linux-build:
+  #   name: Linux build
+  #   runs-on: ubuntu-18.04
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         submodules: true
+
+  #     - name: 'CMake Build'
+  #       run: |
+  #         mkdir ./build
+  #         cmake -DBoost_DIR="$BOOST_ROOT_1_72_0\lib\cmake\Boost-1.72.0" -S . -B ./build
+  #         cmake --build ./build --parallel 2
+        
