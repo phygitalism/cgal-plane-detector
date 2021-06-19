@@ -36,3 +36,5 @@
 .vscode/
 
 [Bb]uild/
+
+vcpkg_installed/

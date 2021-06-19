@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ master, develop ]
   workflow_dispatch:
+
 jobs:
   windows-build:
     name: Windows build
@@ -13,53 +14,54 @@ jobs:
 
     env:
       buildDir: '${{ github.workspace }}/build'
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
 
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: '0'
 
-      # - name: Restore artifacts, or setup vcpkg (do not install any package)
-      #   uses: lukka/run-vcpkg@v6
-      #   with:
-      #     # Just install vcpkg for now, do not install any ports in this step yet.
-      #     setupOnly: true
-      #     # Location of the vcpkg submodule in the Git repository.
-      #     vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-      #     # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-      #     # compute its hash and append this to the computed cache's key.
-      #     appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
-      #     vcpkgTriplet: ${{ matrix.triplet }}
-      #     # Ensure the vcpkg artifacts are cached, they are generated in the 'CMAKE_BINARY_DIR/vcpkg_installed' directory.
-      #     additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
-      - name: Bootstrap
-        run: ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+      - name: Restore artifacts, or setup vcpkg (do not install any package)
+        uses: lukka/run-vcpkg@v6
+        with:
+          setupOnly: true
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+
+      - name: Install dependencies
+        run: cmake -G'Visual Studio 16 2019' -A x64 -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.buildDir }}
 
       - name: Build project
-        run: |
-          $env:VCPKG_INSTALLATION_ROOT=""
-          cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_TARGET_TRIPLET="x64-windows" -DVCPKG_MANIFEST_INSTALL:BOOL=ON -S . -B ${{ env.buildDir }}
-          cmake --build ${{ env.buildDir }} --target ALL_BUILD --parallel 2
-          Get-Content D:\a\cgal-plane-detector\cgal-plane-detector\build\vcpkg-manifest-install.log
-      - uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: log
-          path: D:\a\cgal-plane-detector\cgal-plane-detector\build\vcpkg-manifest-install.log
-          
+        run: cmake --build ${{ env.buildDir }}
   
-  # linux-build:
-  #   name: Linux build
-  #   runs-on: ubuntu-18.04
+  linux-build:
+    name: Linux build
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         submodules: true
+    env:
+      buildDir: '${{ github.workspace }}/build'
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
 
-  #     - name: 'CMake Build'
-  #       run: |
-  #         mkdir ./build
-  #         cmake -DBoost_DIR="$BOOST_ROOT_1_72_0\lib\cmake\Boost-1.72.0" -S . -B ./build
-  #         cmake --build ./build --parallel 2
-        
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: '0'
+
+      - name: Restore artifacts, or setup vcpkg (do not install any package)
+        uses: lukka/run-vcpkg@v6
+        with:
+          setupOnly: true
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+
+      - name: Install dependencies
+        run: cmake -G'Ninja' -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DVCPKG_TARGET_TRIPLET="x64-linux" -S . -B ${{ env.buildDir }}
+
+      - name: Build project
+        run: cmake --build ${{ env.buildDir }}
