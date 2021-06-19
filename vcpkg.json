@@ -11,15 +11,15 @@
         },
         {
             "name": "boost-math",
-            "version>=": "1.71.0"
+            "version>=": "1.73.0"
         },
         {
             "name": "boost-filesystem",
-            "version>=": "1.71.0"
+            "version>=": "1.73.0"
         },
         {
             "name": "boost-program-options",
-            "version>=": "1.71.0"
+            "version>=": "1.73.0"
         }
     ],
     "overrides": [
@@ -29,15 +29,15 @@
         },
         {
             "name": "boost-math",
-            "version": "1.71.0"
+            "version": "1.73.0"
         },
         {
             "name": "boost-filesystem",
-            "version": "1.71.0"
+            "version": "1.73.0"
         },
         {
             "name": "boost-program-options",
-            "version": "1.71.0"
+            "version": "1.73.0"
         }
     ],
     "builtin-baseline": "5568f110b509a9fd90711978a7cb76bae75bb092"

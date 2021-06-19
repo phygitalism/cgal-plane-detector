@@ -1,6 +1,6 @@
 find_package(CGAL REQUIRED)
 find_package(VTK 8)
-find_package(Boost 1.71 REQUIRED COMPONENTS filesystem program_options)
+find_package(Boost 1.73 REQUIRED COMPONENTS filesystem program_options)
 
 if(NOT ${CGAL_MAJOR_VERSION} GREATER_EQUAL "5")
     message(FATAL_ERROR "You need to install version of CGAL greather or equal than 5.0. Yout version is " ${CGAL_VERSION})
