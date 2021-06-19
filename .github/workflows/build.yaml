@@ -51,6 +51,11 @@ jobs:
           submodules: true
           fetch-depth: '0'
 
+      - name: Install ninja
+        run: |
+          sudo apt update
+          sudo apt install -y ninja-build
+
       - name: Restore artifacts, or setup vcpkg (do not install any package)
         uses: lukka/run-vcpkg@v6
         with:
