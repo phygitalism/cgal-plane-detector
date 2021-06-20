@@ -16,6 +16,18 @@
         {
             "name": "freetype",
             "version>=": "2.9.0"
+        },
+        {
+            "name": "boost-math",
+            "version>=": "1.73.0"
+        },
+        {
+            "name": "boost-filesystem",
+            "version>=": "1.73.0"
+        },
+        {
+            "name": "boost-program-options",
+            "version>=": "1.73.0"
         }
     ],
     "overrides": [
