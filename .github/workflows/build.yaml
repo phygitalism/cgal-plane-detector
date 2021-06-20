@@ -8,34 +8,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  # windows-build:
-  #   name: Windows build
-  #   runs-on: windows-2019
+  windows-build:
+    name: Windows build
+    runs-on: windows-2019
 
-  #   env:
-  #     buildDir: '${{ github.workspace }}/build'
-  #     CMAKE_BUILD_PARALLEL_LEVEL: 2
+    env:
+      buildDir: '${{ github.workspace }}/build'
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         submodules: true
-  #         fetch-depth: '0'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: '0'
 
-  #     - name: Restore artifacts, or setup vcpkg (do not install any package)
-  #       uses: lukka/run-vcpkg@v6
-  #       with:
-  #         setupOnly: true
-  #         vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-  #         appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
-  #         vcpkgTriplet: ${{ matrix.triplet }}
-  #         additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+      - name: Restore artifacts, or setup vcpkg (do not install any package)
+        uses: lukka/run-vcpkg@v6
+        with:
+          setupOnly: true
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
 
-  #     - name: Install dependencies
-  #       run: cmake -G'Visual Studio 16 2019' -A x64 -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.buildDir }}
+      - name: Install dependencies
+        run: cmake -G'Visual Studio 16 2019' -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.buildDir }}
 
-  #     - name: Build project
-  #       run: cmake --build ${{ env.buildDir }}
+      # - name: Build project
+      #   run: cmake --build ${{ env.buildDir }}
   
   linux-build:
     name: Linux build
