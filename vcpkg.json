@@ -7,13 +7,33 @@
             "features": [
                 "opengl"
             ],
-            "version>=": "9.0.1"
+            "version>=": "8.2.0"
+        },
+        {
+            "name": "boost-math",
+            "version>=": "1.73.0"
+        },
+        {
+            "name": "boost-filesystem",
+            "version>=": "1.73.0"
+        },
+        {
+            "name": "boost-program-options",
+            "version>=": "1.73.0"
+        },
+        {
+            "name": "proj4",
+            "version>=": "6.0.0"
+        },
+        {
+            "name": "freetype",
+            "version>=": "2.9.0"
         }
     ],
     "overrides": [
         {
             "name": "vtk",
-            "version": "9.0.1"
+            "version-string": "8.2.0-13"
         },
         {
             "name": "boost-math",
@@ -26,6 +46,15 @@
         {
             "name": "boost-program-options",
             "version": "1.73.0"
+        },
+        {
+            "name": "proj4",
+            "version": "6.3.1",
+            "port-version": 3
+        },
+        {
+            "name": "freetype",
+            "version": "2.9.1"
         }
     ],
     "builtin-baseline": "5568f110b509a9fd90711978a7cb76bae75bb092"
