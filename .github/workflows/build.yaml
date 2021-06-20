@@ -15,6 +15,7 @@ jobs:
     env:
       buildDir: '${{ github.workspace }}/build'
       CMAKE_BUILD_PARALLEL_LEVEL: 2
+      CGAL_VERSION: CGAL-5.0.4
 
     steps:
       - uses: actions/checkout@v2
@@ -31,11 +32,16 @@ jobs:
           vcpkgTriplet: ${{ matrix.triplet }}
           additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
 
-      - name: Install dependencies
-        run: cmake -G'Visual Studio 16 2019' -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.buildDir }}
+      - name: Download binary CGAL 5.0
+        run: |
+          (New-Object System.Net.WebClient).DownloadFile("https://github.com/CGAL/cgal/releases/download/v5.0.4/${{ env.CGAL_VERSION }}-library.zip", "${{ env.CGAL_VERSION }}-library.zip")
+          Expand-Archive ./${{ env.CGAL_VERSION }}-library.zip -DestinationPath ..
 
-      # - name: Build project
-      #   run: cmake --build ${{ env.buildDir }}
+      - name: Install dependencies
+        run: cmake -G'Visual Studio 16 2019' -A x64 -DCGAL_DIR:PATH="..\{{ env.CGAL_VERSION }}\lib\cmake\CGAL" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=ON -DVCPKG_MANIFEST_INSTALL:BOOL=ON  -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.buildDir }}
+      
+      - name: Build project
+        run: cmake --build ${{ env.buildDir }}
   
   linux-build:
     name: Linux build
@@ -54,7 +60,7 @@ jobs:
       - name: Install OpenGL and CGAL
         run: |
           sudo apt update
-          sudo apt install -y freeglut3-dev libxt-dev libcgal-dev
+          sudo apt install -y freeglut3-dev libxt-dev libcgal-dev ninja-build
 
       - name: Restore artifacts, or setup vcpkg (do not install any package)
         uses: lukka/run-vcpkg@v6

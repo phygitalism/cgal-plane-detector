@@ -15,7 +15,7 @@ add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_
 if(${VTK_FOUND})
     target_compile_definitions(${PROJECT_NAME} PRIVATE VTK_VIS)
 else()
-    message(AUTHOR_WARNING "Cannot find VTK library. Disbale visualisation.")
+    message(AUTHOR_WARNING "Cannot find VTK library. Disable visualization.")
 endif()
 
 
