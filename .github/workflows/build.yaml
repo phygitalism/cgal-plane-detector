@@ -42,7 +42,7 @@ jobs:
         run: ./vcpkg/vcpkg.exe install --triplet x64-windows --clean-after-build
 
       - name: Configure project
-        run: cmake -G'Visual Studio 16 2019' -A x64 -DCGAL_DIR:PATH="..\{{ env.CGAL_VERSION }}\lib\cmake\CGAL" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_MANIFEST_MODE:BOOL=OFF -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.BUILD_DIR }}
+        run: cmake -G'Visual Studio 16 2019' -A x64 -DCGAL_DIR:PATH="..\{{ env.CGAL_VERSION }}\lib\cmake\CGAL" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.BUILD_DIR }}
       
       - name: Build project
         run: cmake --build ${{ env.BUILD_DIR }}
@@ -79,7 +79,7 @@ jobs:
         run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build
 
       - name: Configure project
-        run: cmake -G'Ninja' -DCMAKE_BUILD_TYPE=Release -DVCPKG_MANIFEST_MODE:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-linux" -S . -B ${{ env.BUILD_DIR }}
+        run: cmake -G'Ninja' -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-linux" -S . -B ${{ env.BUILD_DIR }}
 
       - name: Build project
         run: cmake --build ${{ env.BUILD_DIR }}
