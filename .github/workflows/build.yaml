@@ -16,6 +16,7 @@ jobs:
       BUILD_DIR: '${{ github.workspace }}/build'
       CMAKE_BUILD_PARALLEL_LEVEL: 2
       CGAL_VERSION: CGAL-5.0.4
+      VCPKG_DEFAULT_BINARY_CACHE: '${{ github.workspace }}/bin-cache'
 
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +31,7 @@ jobs:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
           appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
           vcpkgTriplet: ${{ matrix.triplet }}
-          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;$${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
 
       - name: Download binary CGAL 5.0
         run: |
@@ -54,6 +55,7 @@ jobs:
     env:
       BUILD_DIR: '${{ github.workspace }}/build'
       CMAKE_BUILD_PARALLEL_LEVEL: 2
+      VCPKG_DEFAULT_BINARY_CACHE: '${{ github.workspace }}/bin-cache'
 
     steps:
       - uses: actions/checkout@v2
@@ -73,7 +75,7 @@ jobs:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
           appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
           vcpkgTriplet: ${{ matrix.triplet }}
-          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;$${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
 
       - name: Install dependencies
         run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build

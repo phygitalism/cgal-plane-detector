@@ -3,13 +3,6 @@
     "version-string": "0.1.0",
     "dependencies": [
         {
-            "name": "vtk",
-            "features": [
-                "opengl"
-            ],
-            "version>=": "8.2.0"
-        },
-        {
             "name": "proj4",
             "version>=": "6.0.0"
         },
