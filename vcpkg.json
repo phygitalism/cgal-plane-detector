@@ -28,6 +28,10 @@
         {
             "name": "boost-program-options",
             "version>=": "1.73.0"
+        },
+        {
+            "name": "gmp",
+            "version": "6.2.0"
         }
     ],
     "overrides": [
@@ -55,6 +59,11 @@
         {
             "name": "freetype",
             "version": "2.9.1"
+        },
+        {
+            "name": "gmp",
+            "version": "6.2.1",
+            "port-version": 5
         }
     ],
     "builtin-baseline": "5568f110b509a9fd90711978a7cb76bae75bb092"
