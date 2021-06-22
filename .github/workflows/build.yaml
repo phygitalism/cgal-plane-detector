@@ -34,7 +34,7 @@ jobs:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
           appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
           vcpkgTriplet: ${{ matrix.triplet }}
-          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;$${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
 
       - name: Download binary CGAL 5.0
         run: |
@@ -81,7 +81,7 @@ jobs:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
           appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
           vcpkgTriplet: ${{ matrix.triplet }}
-          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;$${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
 
       - name: Install dependencies
         run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build
