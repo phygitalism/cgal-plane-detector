@@ -43,7 +43,9 @@ jobs:
           ls ../${{ env.CGAL_VERSION }}/lib/cmake/CGAL
 
       - name: Install dependencies
-        run: ./vcpkg/vcpkg.exe install --triplet x64-windows --clean-after-build
+        run: |
+         ./vcpkg/vcpkg.exe install yasm-tool:x86-window --clean-after-build
+         ./vcpkg/vcpkg.exe install --triplet x64-windows --clean-after-build
 
       - name: Configure project
         run: cmake -G'Visual Studio 16 2019' -A x64 -DCGAL_DIR="${{ github.workspace }}/../${{ env.CGAL_VERSION }}/lib/cmake/CGAL" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.BUILD_DIR }}
