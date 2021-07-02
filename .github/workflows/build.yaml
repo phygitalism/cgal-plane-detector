@@ -44,8 +44,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-         ./vcpkg/vcpkg.exe install --feature-flags=binarycaching,-manifests yasm-tool:x64-windows-static yasm-tool-helper:x64-windows-static
-         ./vcpkg/vcpkg.exe install --feature-flags=binarycaching,-manifests gmp:x64-windows
          ./vcpkg/vcpkg.exe install --triplet x64-windows --clean-after-build
 
       - name: Configure project
