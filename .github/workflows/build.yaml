@@ -47,7 +47,7 @@ jobs:
          ./vcpkg/vcpkg.exe install --triplet x64-windows --clean-after-build
 
       - name: Configure project
-        run: cmake -G'Visual Studio 16 2019' -A x64 -DCGAL_DIR="${{ github.workspace }}/../${{ env.CGAL_VERSION }}/lib/cmake/CGAL" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-windows" -S . -B ${{ env.BUILD_DIR }}
+        run: cmake --preset windows-only -DCGAL_DIR="${{ github.workspace }}/../${{ env.CGAL_VERSION }}/lib/cmake/CGAL"
       
       - name: Build project
         run: cmake --build ${{ env.BUILD_DIR }}
@@ -88,7 +88,7 @@ jobs:
         run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build
 
       - name: Configure project
-        run: cmake -G'Ninja' -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-linux" -S . -B ${{ env.BUILD_DIR }}
+        run: cmake --preset linux-ninja
 
       - name: Build project
         run: cmake --build ${{ env.BUILD_DIR }}
