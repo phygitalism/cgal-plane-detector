@@ -24,7 +24,7 @@
             }
         },
         {
-            "name": "windows-only",
+            "name": "windows-vc16",
             "displayName": "Windows configuration",
             "description": "This build is only available on Windows",
             "generator": "Visual Studio 16 2019",
@@ -52,7 +52,7 @@
         },
         {
             "name": "windows",
-            "configurePreset": "windows-only"
+            "configurePreset": "windows-vc16"
         }
     ]
 }
