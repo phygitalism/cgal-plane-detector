@@ -1,6 +1,6 @@
 find_package(CGAL REQUIRED)
 find_package(VTK 8)
-find_package(Boost 1.71 REQUIRED COMPONENTS filesystem program_options)
+find_package(Boost 1.73 REQUIRED COMPONENTS filesystem program_options)
 
 if(NOT ${CGAL_MAJOR_VERSION} GREATER_EQUAL "5")
     message(FATAL_ERROR "You need to install version of CGAL greather or equal than 5.0. Yout version is " ${CGAL_VERSION})
@@ -15,7 +15,7 @@ add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${CMAKE_
 if(${VTK_FOUND})
     target_compile_definitions(${PROJECT_NAME} PRIVATE VTK_VIS)
 else()
-    message(AUTHOR_WARNING "Cannot find VTK library. Disbale visualisation.")
+    message(AUTHOR_WARNING "Cannot find VTK library. Disable visualization.")
 endif()
 
 

@@ -1,5 +1,7 @@
 # CGAL plane detection
 
+[![master branch](https://github.com/phygitalism/cgal-plane-detector/actions/workflows/build.yaml/badge.svg)](https://github.com/phygitalism/cgal-plane-detector/actions/workflows/build.yaml)
+
 ## Description
 
 [CGAL](https://www.cgal.org/) region growing algorithm for plane detection.
@@ -10,40 +12,41 @@
 
 1. CGAL 5.0 or higher.
 2. Boost: math, filesystem, program options. Project was tested with Boost 1.71.
-3. CMake 3.17 or higher.
+3. CMake 3.20 or higher.
 4. Optional. [VTK](https://vtk.org/). It need only for visualization.
 5. Compiler with support C++14.
+6. Ninja (for Linux).
+7. Visual Studio 16 (for Windows).
 
 ## How to run
 
-Create new directory `build`.
+### Linux
 
-```
-mkdir build
-cd build
-```
+[See GitHub Action for compilation from source](/.github/workflows/build.yaml)
 
-Run CMake:
-
-```
-cmake -G "Visual Studio 16 2019" -A x64 -DCGAL_DIR=<path_to_dir_with_cmake> .. 
+```bash
+cmake --preset linux-ninja
+cmake --build ./build --config Release
 ```
 
-Suppose that you use Visual Studio 2019. For other tools see `cmake --help`.
+### Windows
 
-It is recommended to install [vcpkg](https://github.com/microsoft/vcpkg). If you have vcpkg that:
+[See GitHub Action for compilation from source](/.github/workflows/build.yaml)
+
+[Download CGAL (CGAL-*-library.zip) and GMP (GMP and MPFR libraries, for Windows 64bits) from release page](https://github.com/CGAL/cgal/releases)
+
+Unzip GMP and MPFR libraries. Set env variable `GMP_DIR`, `MPFR_DIR` to the `<a path to GMP from archive>/auxiliary`
+
+Run CMake (PowerShell):
+
+```powershell
+$env:GMP_DIR = "<a path to GMP from archive>/auxiliary"
+$env:MPFR_DIR = "<a path to GMP from archive>/auxiliary"
+cmake --preset windows-vc16 -DCGAL_DIR:PATH="<a path to CGAL directory from archive/lib/cmake/CGAL"
+cmake --build ./build --config Release
 ```
-cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_TOOLCHAIN_FILE=<path_to_vcpkg>\vcpkg\scripts\buildsystems\vcpkg.cmake -DCGAL_DIR=<path_to_dir_with_cmake>  .. 
 
-```
-
-Run:
-```
- cmake --build . --config Release 
-```
-
-Find executable.
-
+Find executable (for Windows):
 ```
 .\cgal-plane-detection.exe -i input_mes.obj -o segmented.ply -c
 ```

@@ -1,0 +1,107 @@
+name: autobuild
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:
+
+jobs:
+  windows-build:
+    name: Windows build
+    runs-on: windows-2019
+
+    env:
+      BUILD_DIR: '${{ github.workspace }}\build'
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      CGAL_VERSION: 'v5.2'
+      CGAL_ARCHIVE_PREFIX: 'CGAL-5.2'
+      VCPKG_DEFAULT_BINARY_CACHE: '${{ github.workspace }}\bin-cache'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: '0'
+      
+      - name: Create vcpkg binary cache
+        run: New-Item -ItemType Directory ${{ env.VCPKG_DEFAULT_BINARY_CACHE }} 
+
+      - name: Restore artifacts, or setup vcpkg (do not install any package)
+        uses: lukka/run-vcpkg@v6
+        with:
+          setupOnly: true
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+
+      - name: Download binary CGAL ${{ env.CGAL_VERSION }}
+        run: |
+          (New-Object System.Net.WebClient).DownloadFile("https://github.com/CGAL/cgal/releases/download/${{ env.CGAL_VERSION }}/${{ env.CGAL_ARCHIVE_PREFIX }}-library.zip", "${{ env.CGAL_ARCHIVE_PREFIX }}-library.zip")
+          Expand-Archive ./${{ env.CGAL_ARCHIVE_PREFIX }}-library.zip -DestinationPath ..
+          ls ../${{ env.CGAL_ARCHIVE_PREFIX }}/lib/cmake/CGAL
+        
+      
+      - name: Download GMP and MPFR for ${{ env.CGAL_VERSION }}
+        run: |
+          (New-Object System.Net.WebClient).DownloadFile("https://github.com/CGAL/cgal/releases/download/${{ env.CGAL_VERSION }}/${{ env.CGAL_ARCHIVE_PREFIX }}-win64-auxiliary-libraries-gmp-mpfr.zip", "${{ env.CGAL_ARCHIVE_PREFIX }}-win64-auxiliary-libraries-gmp-mpfr.zip")
+          Expand-Archive ./${{ env.CGAL_ARCHIVE_PREFIX }}-win64-auxiliary-libraries-gmp-mpfr.zip -DestinationPath ..
+          ls "${{ github.workspace }}/../auxiliary"
+
+      - name: Install dependencies
+        run: |
+         ./vcpkg/vcpkg.exe install --triplet x64-windows --clean-after-build
+
+      - name: Configure project
+        run: |
+          $GMPMPFR_LIB_DIR = "${{ github.workspace }}/../auxiliary/gmp"
+          $env:GMP_DIR = $GMPMPFR_LIB_DIR
+          $env:MPFR_DIR = $GMPMPFR_LIB_DIR
+          cmake --preset windows-vc16 `
+          -DCGAL_DIR:PATH="${{ github.workspace }}/../${{ env.CGAL_ARCHIVE_PREFIX }}/lib/cmake/CGAL"
+      
+      - name: Build project
+        run: cmake --build ${{ env.BUILD_DIR }}
+
+  linux-build:
+    name: Linux build
+    runs-on: ubuntu-20.04
+
+    env:
+      BUILD_DIR: '${{ github.workspace }}/build'
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      VCPKG_DEFAULT_BINARY_CACHE: '${{ github.workspace }}/bin-cache'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: '0'
+
+      - name: Create vcpkg binary cache
+        run: mkdir ${{ env.VCPKG_DEFAULT_BINARY_CACHE }} 
+
+      - name: Install OpenGL and CGAL
+        run: |
+          sudo apt update
+          sudo apt install -y freeglut3-dev libxt-dev libcgal-dev ninja-build libgmp-dev libmpfr-dev
+
+      - name: Restore artifacts, or setup vcpkg (do not install any package)
+        uses: lukka/run-vcpkg@v6
+        with:
+          setupOnly: true
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+
+      - name: Install dependencies
+        run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build
+
+      - name: Configure project
+        run: cmake --preset linux-ninja
+
+      - name: Build project
+        run: cmake --build ${{ env.BUILD_DIR }}
