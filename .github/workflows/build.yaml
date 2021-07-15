@@ -65,43 +65,43 @@ jobs:
       - name: Build project
         run: cmake --build ${{ env.BUILD_DIR }}
 
-  # linux-build:
-  #   name: Linux build
-  #   runs-on: ubuntu-20.04
+  linux-build:
+    name: Linux build
+    runs-on: ubuntu-20.04
 
-  #   env:
-  #     BUILD_DIR: '${{ github.workspace }}/build'
-  #     CMAKE_BUILD_PARALLEL_LEVEL: 2
-  #     VCPKG_DEFAULT_BINARY_CACHE: '${{ github.workspace }}/bin-cache'
+    env:
+      BUILD_DIR: '${{ github.workspace }}/build'
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      VCPKG_DEFAULT_BINARY_CACHE: '${{ github.workspace }}/bin-cache'
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         submodules: true
-  #         fetch-depth: '0'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: '0'
 
-  #     - name: Create vcpkg binary cache
-  #       run: mkdir ${{ env.VCPKG_DEFAULT_BINARY_CACHE }} 
+      - name: Create vcpkg binary cache
+        run: mkdir ${{ env.VCPKG_DEFAULT_BINARY_CACHE }} 
 
-  #     - name: Install OpenGL and CGAL
-  #       run: |
-  #         sudo apt update
-  #         sudo apt install -y freeglut3-dev libxt-dev libcgal-dev ninja-build libgmp-dev libmpfr-dev
+      - name: Install OpenGL and CGAL
+        run: |
+          sudo apt update
+          sudo apt install -y freeglut3-dev libxt-dev libcgal-dev ninja-build libgmp-dev libmpfr-dev
 
-  #     - name: Restore artifacts, or setup vcpkg (do not install any package)
-  #       uses: lukka/run-vcpkg@v6
-  #       with:
-  #         setupOnly: true
-  #         vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-  #         appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
-  #         vcpkgTriplet: ${{ matrix.triplet }}
-  #         additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+      - name: Restore artifacts, or setup vcpkg (do not install any package)
+        uses: lukka/run-vcpkg@v6
+        with:
+          setupOnly: true
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
+          vcpkgTriplet: ${{ matrix.triplet }}
+          additionalCachedPaths: ${{ github.workspace }}/vcpkg_installed;${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
 
-  #     - name: Install dependencies
-  #       run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build
+      - name: Install dependencies
+        run: ./vcpkg/vcpkg install --triplet x64-linux --clean-after-build
 
-  #     - name: Configure project
-  #       run: cmake --preset linux-ninja
+      - name: Configure project
+        run: cmake --preset linux-ninja
 
-  #     - name: Build project
-  #       run: cmake --build ${{ env.BUILD_DIR }}
+      - name: Build project
+        run: cmake --build ${{ env.BUILD_DIR }}
